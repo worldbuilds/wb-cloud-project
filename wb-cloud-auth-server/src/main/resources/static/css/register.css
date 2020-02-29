@@ -1,0 +1,68 @@
+.divider-text {
+    position: relative;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.divider-text span {
+    padding: 7px;
+    font-size: 12px;
+    position: relative;
+    z-index: 2;
+}
+.divider-text:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    top: 55%;
+    left: 0;
+    z-index: 1;
+}
+.btn-primary{
+    background-color: #39ace7;
+    color: #fff;
+    border-color: #39ace7
+}
+
+.btn-primary:hover,btn-primary:active {
+    color: #fff;
+    background-color: #39ace7;
+    border-color: #39ace7;
+}
+.btn-primary:active {
+   transform: scale(0.95);
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgb(57, 172, 231)
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgb(57, 172, 231)
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+   color: #fff;
+   background-color: #39ace7;
+   border-color: #39ace7;
+}
+
+.btn-facebook, .btn-twitter {
+    /*background-color: #42AEEC;*/
+    color: #fff;
+    background-color: #405D9D;
+}
+
+a {
+  color: #56baed;
+  /*color: #007bff;*/
+  display:inline-block;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+a:hover {
+    color: #56baed;
+   text-decoration: underline;
+}

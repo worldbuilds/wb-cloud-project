@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<link href="css/login.css" rel="stylesheet">
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <div class="fadeIn first">
+            <img alt="User Icon" id="icon" src="css/img/trackobit.png">
+        </div>
+        <form id="login-form">
+            <input class="fadeIn second" id="username-id" name="username" placeholder="username" type="text" required>
+            <input class="fadeIn third" id="password-id" name="password" placeholder="password" type="text" required>
+            <input class="fadeIn fourth" type="submit" value="Log In" id="login-btn">
+        </form>
+        <div id="formFooter">
+            <p class="text-center">Don't Have an account? <a href="/register">Register</a> </p>
+        </div>
+    </div>
+</div>
+<div id="2fa-verify-modal" class="modal fade" role="dialog" tabindex=-1 aria-hidden="true" data-backdrop="static" data-keyboard="false"  style="display: none;" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Configure your Token</h5>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>-->
+            </div>
+            <div class="modal-body">
+                <p>Enter TOTP from Google Authenticator application</p>
+                <div class="text-center">
+                    <input class="fadeIn second" id="totp-id" name="totp" placeholder="OTP" type="text" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="2fa-verify-btn" type="button" class="btn btn-primary">Verify</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/login.js"></script>
+</body>
+</html>

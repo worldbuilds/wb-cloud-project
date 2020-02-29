@@ -1,0 +1,13 @@
+server:
+  port: 8075
+spring:
+  application:
+    name: google-service
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            tokenName: oauth_token
+            client-id: 1071416989355-qfspo2hkemg93cvhgjt08ngbhrmguevn.apps.googleusercontent.com # get a client-id from https://console.developers.google.com/
+            client-secret: tgEOksK_iUGJERr3tobDhuVJ  # get a client-secret from https://console.developers.google.com/

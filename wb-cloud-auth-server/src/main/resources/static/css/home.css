@@ -1,0 +1,9 @@
+.welcome{
+    height: 87px;
+    background: green;
+    text-align: center;
+    padding: 20px;
+    font-size: 35px;
+    color: wheat;
+    font-weight: bolder;
+}
