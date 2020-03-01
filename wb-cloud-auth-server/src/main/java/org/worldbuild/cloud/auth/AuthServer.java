@@ -22,7 +22,6 @@ import java.util.List;
 
 @Log4j2
 @SpringBootApplication
-@EnableAuthorizationServer
 @EnableJpaRepositories(basePackages ={"org.worldbuild.cloud.auth.JPA.repository"})
 public class AuthServer {
 
@@ -30,7 +29,7 @@ public class AuthServer {
 		SpringApplication.run(AuthServer.class, args);
 	}
 
-	@Bean("restTemplate")
+	@Bean(name = "restTemplate")
 	public RestTemplate restTemplate() {
 		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate;
