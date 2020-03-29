@@ -8,7 +8,7 @@ import java.security.SecureRandom;
 public interface StringUtils {
 
     public static String generateSecret() {
-         return RandomStringUtils.random(10, true, true).toUpperCase();
+         return RandomStringUtils.random(20, true, true).toUpperCase();
     }
 
     public static String generateSecret(int count) {
