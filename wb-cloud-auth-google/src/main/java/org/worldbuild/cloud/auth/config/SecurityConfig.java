@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,25 +23,43 @@ import javax.servlet.http.HttpServletResponse;
 @Log4j2
 @Configuration
 @EnableWebSecurity
-public class SecurityServerConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     @Qualifier(value = "passwordEncoder")
     private PasswordEncoder passwordEncoder;
 
-   /* @Primary
-    @Bean(name = "authenticationManagerBean")
+    @Primary
+    @Override
+    @Bean(name = "authenticationManager")
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }*/
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(
+                "/favicon.ico",
+                "/js/**",
+                "/css/**",
+                "/img/**",
+                "/public/**",
+                "*.png",
+                "*.gif",
+                "*.svg",
+                "*.jpg",
+                "*.css",
+                "*.js");
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/**").authorizeRequests()
-                .antMatchers(new String[]{"/public/**"}).permitAll()
+        http.antMatcher("/**").authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .oauth2Login();
+                .oauth2Login()
+                .and()
+                .formLogin().disable()
+                .httpBasic().disable();
     }
 }
