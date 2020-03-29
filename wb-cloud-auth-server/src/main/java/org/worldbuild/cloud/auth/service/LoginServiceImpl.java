@@ -1,13 +1,11 @@
 package org.worldbuild.cloud.auth.service;
 
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +14,7 @@ import org.worldbuild.cloud.auth.JPA.entity.UserInfo;
 import org.worldbuild.cloud.auth.JPA.service.UserInfoService;
 import org.worldbuild.cloud.auth.modal.OAuth2ApiResponse;
 import org.worldbuild.cloud.auth.modal.UserDTO;
-import org.worldbuild.cloud.auth.utils.StringUtils;
+import org.worldbuild.cloud.auth.utils.TOTPUtils;
 
 import javax.annotation.PostConstruct;
 
@@ -24,7 +22,7 @@ import javax.annotation.PostConstruct;
 @Service
 public class LoginServiceImpl implements  LoginService {
 
-    private static String OAUTH2_URL="http://localhost:8074/oauth/token";
+    private static String OAUTH2_URL="http://localhost:8071/oauth/token";
 
     @Autowired
     @Qualifier("restTemplate")
@@ -61,12 +59,11 @@ public class LoginServiceImpl implements  LoginService {
         user.setEmail(useDTO.getEmail());
         user.setPhone(useDTO.getPhone());
         user.setAddress(useDTO.getAddress());
-        user.setSecretKey(StringUtils.generateSecret());
+        user.setSecretKey(TOTPUtils.generateSecret());
         user.setEnabled(useDTO.isEnabled());
         user.setGoogleAuth(useDTO.isGoogleAuth());
         //
         user.setUsername(useDTO.getUsername());
-        log.info(useDTO.getPassword());
         user.setPassword(passwordEncoder.encode(useDTO.getPassword()));
         user= userInfoService.save(user);
         return UserDTO.generateUserDTO(user);

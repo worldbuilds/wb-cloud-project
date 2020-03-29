@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,14 +34,27 @@ public class SecurityServerConfig extends WebSecurityConfigurerAdapter {
     @Qualifier(value = "customUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    @Bean(name = "authenticationManagerBean")
+    @Primary
+    @Override
+    @Bean(name = "authenticationManager")
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/js/**", "/css/**","/favicon.ico");
+        web.ignoring().antMatchers(
+                "/favicon.ico",
+                "/js/**",
+                "/css/**",
+                "/img/**",
+                "/public/**",
+                "*.png",
+                "*.gif",
+                "*.svg",
+                "*.jpg",
+                "/**/*.css",
+                "/**/*.js");
     }
 
     @Override
@@ -54,7 +68,7 @@ public class SecurityServerConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .antMatcher("/**").authorizeRequests()
-                .antMatchers(new String[]{"/","/login","/oauth/token","/register","/public"}).permitAll()
+                .antMatchers(new String[]{"/","/login","/register"}).permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED));

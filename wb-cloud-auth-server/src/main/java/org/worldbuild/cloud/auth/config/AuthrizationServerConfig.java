@@ -33,7 +33,7 @@ public class AuthrizationServerConfig extends AuthorizationServerConfigurerAdapt
     private ClientDetailsService clientDetailsService;
 
     @Autowired
-    @Qualifier(value = "authenticationManagerBean")
+    @Qualifier(value = "authenticationManager")
     private AuthenticationManager authenticationManager;
 
     @Override

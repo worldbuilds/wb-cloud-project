@@ -1,6 +1,9 @@
 package org.worldbuild.cloud.auth.utils;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.codec.EncoderException;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,6 +17,39 @@ import java.util.TimeZone;
 @Log4j2
 public class TOTPUtils {
     private static final int[] DIGITS_POWER = {1,10,100,1000,10000,100000,1000000,10000000,100000000 };
+
+    public static String generateSecret() {
+        return RandomStringUtils.random(20, true, true).toUpperCase();
+    }
+
+    public static String generateSecret(int count) {
+        return RandomStringUtils.random(count, true, true).toUpperCase();
+    }
+
+    public static boolean verifyCode(String totpCode, String secret) {
+        String totpCodeBySecret = generateTotpBySecret(secret);
+        log.info("User code- "+totpCode+" System code- "+totpCodeBySecret);
+        return totpCode.equals(totpCodeBySecret);
+    }
+
+    private static String generateTotpBySecret(String secret) {
+        long timeFrame = System.currentTimeMillis() / 1000L / 30;
+        log.info("Getting current timestamp representing 30 seconds time frame-"+timeFrame);
+        String timeEncoded = Long.toHexString(timeFrame);
+        log.info("Encoding time frame value to HEX string- "+timeEncoded);
+        String totpCodeBySecret;
+        try {
+            log.info("Secrete key- "+secret);
+            //  required by TOTP generator which is used here.
+            String secretEncoded = String.copyValueOf((char[]) new Hex().encode(secret));
+            log.info("Encoding given secret string to HEX string -"+secretEncoded);
+            // Generating TOTP by given time and secret - using TOTP algorithm implementation provided by IETF.
+            totpCodeBySecret = TOTPUtils.generateTOTP(secretEncoded, timeEncoded, "6");
+        } catch (EncoderException e) {
+            throw new RuntimeException(e);
+        }
+        return totpCodeBySecret;
+    }
 
     private static byte[] hmac_sha(String crypto, byte[] keyBytes, byte[] text){
         try {
@@ -37,19 +73,19 @@ public class TOTPUtils {
     }
 
 
-    public static String generateTOTP(String key, String time, String returnDigits){
+    private static String generateTOTP(String key, String time, String returnDigits){
         return generateTOTP(key, time, returnDigits, "HmacSHA1");
     }
 
-    public static String generateTOTP256(String key, String time, String returnDigits){
+    private static String generateTOTP256(String key, String time, String returnDigits){
         return generateTOTP(key, time, returnDigits, "HmacSHA256");
     }
 
-    public static String generateTOTP512(String key, String time, String returnDigits){
+    private static String generateTOTP512(String key, String time, String returnDigits){
         return generateTOTP(key, time, returnDigits, "HmacSHA512");
     }
 
-    public static String generateTOTP(String key, String time, String returnDigits, String crypto){
+    private static String generateTOTP(String key, String time, String returnDigits, String crypto){
         int codeDigits = Integer.decode(returnDigits).intValue();
         String result = null;
         while (time.length() < 16 ) {

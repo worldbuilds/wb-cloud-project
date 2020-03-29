@@ -1,11 +1,9 @@
 package org.worldbuild.cloud.auth.modal;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base32;
 import org.worldbuild.cloud.auth.JPA.entity.UserInfo;
-import org.worldbuild.cloud.auth.utils.StringUtils;
 
 @Data
 @NoArgsConstructor

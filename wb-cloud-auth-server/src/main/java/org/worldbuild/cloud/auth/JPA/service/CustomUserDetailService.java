@@ -19,7 +19,6 @@ public class CustomUserDetailService implements  UserInfoService, UserDetailsSer
 
     @PostConstruct
     public void init(){
-
     }
 
     @Autowired
